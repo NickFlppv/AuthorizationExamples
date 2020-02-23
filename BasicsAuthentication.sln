@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicsAuthentication", "BasicsAuthentication\BasicsAuthentication.csproj", "{FBC9D3DA-A9E2-459C-ABAC-A3741AF23DD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityExample", "IdentityExample\IdentityExample.csproj", "{4EE01126-6972-45A2-99C1-535F74C594D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBC9D3DA-A9E2-459C-ABAC-A3741AF23DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC9D3DA-A9E2-459C-ABAC-A3741AF23DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC9D3DA-A9E2-459C-ABAC-A3741AF23DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC9D3DA-A9E2-459C-ABAC-A3741AF23DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE01126-6972-45A2-99C1-535F74C594D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE01126-6972-45A2-99C1-535F74C594D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE01126-6972-45A2-99C1-535F74C594D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE01126-6972-45A2-99C1-535F74C594D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
