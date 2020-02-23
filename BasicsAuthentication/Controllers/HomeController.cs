@@ -21,13 +21,13 @@ namespace BasicsAuthentication.Controllers
         {
             return View();
         }
-        
+
         [Authorize(Policy = "Claim.DoB")]
         public IActionResult SecretPolicy()
         {
             return View();
         }
-        
+
         [AllowAnonymous]
         public IActionResult Authenticate()
         {
@@ -36,6 +36,8 @@ namespace BasicsAuthentication.Controllers
                 new Claim(ClaimTypes.Name, "Bob"),
                 new Claim(ClaimTypes.DateOfBirth, "29/04/1999"),
                 new Claim(ClaimTypes.Email, "Bob@email.com"),
+                new Claim("Hello", "Hello value"),
+                new Claim("Friend", "Good"),
                 new Claim("Grandma.says", "Very nice boy.")
             };
             var licenseClaims = new List<Claim>()
@@ -56,13 +58,16 @@ namespace BasicsAuthentication.Controllers
             [FromServices] IAuthorizationService authorizationService)
         {
             var customPolicy = new AuthorizationPolicyBuilder("Schema")
-                .RequireClaim("Hello").Build();
+                .RequireClaim("Hello")
+                .Build();
             var authResult = await authorizationService.AuthorizeAsync(HttpContext.User, customPolicy);
 
             if (authResult.Succeeded)
             {
                 //Do stuff
+                return View();
             }
+
             return View("Index");
         }
     }
