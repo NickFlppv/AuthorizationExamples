@@ -1,5 +1,8 @@
 using System.Security.Claims;
 using BasicsAuthentication.AuthorizationRequirements;
+using BasicsAuthentication.Controllers;
+using BasicsAuthentication.Transformer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,24 +47,14 @@ namespace BasicsAuthentication
                 });
             services.AddAuthorization(config =>
             {
-//                var defaultAuthBuilder = new AuthorizationPolicyBuilder();
-//                config.DefaultPolicy = defaultAuthBuilder
-//                    .RequireAuthenticatedUser()
-//                    .RequireClaim(ClaimTypes.DateOfBirth)
-//                    .Build();
-//                config.AddPolicy("Claim.DoB", policyBuilder =>
-//                {
-//                    policyBuilder.RequireClaim(ClaimTypes.DateOfBirth);
-//                    
-//                });
-                
                 config.AddPolicy("Claim.DoB", policyBuilder =>
                     {
                         policyBuilder.RequireCustomClaim(ClaimTypes.DateOfBirth);
                     });
             });
-
             services.AddScoped<IAuthorizationHandler, CustomRequireClaimHandler>();
+            services.AddScoped<IAuthorizationHandler, CookieJarAuthorizationHandler>();
+            services.AddScoped<IClaimsTransformation, ClaimsTransformation>();
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
 
