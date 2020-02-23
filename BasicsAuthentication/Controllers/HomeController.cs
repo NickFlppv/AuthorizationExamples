@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Authentication.ExtendedProtection;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,20 @@ namespace BasicsAuthentication.Controllers
             HttpContext.SignInAsync(userPrincipal);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DoStuff(
+            [FromServices] IAuthorizationService authorizationService)
+        {
+            var customPolicy = new AuthorizationPolicyBuilder("Schema")
+                .RequireClaim("Hello").Build();
+            var authResult = await authorizationService.AuthorizeAsync(HttpContext.User, customPolicy);
+
+            if (authResult.Succeeded)
+            {
+                //Do stuff
+            }
+            return View("Index");
         }
     }
 }
