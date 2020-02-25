@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SeveralIdentities.Models;
 
-namespace IdentityExample.Data
+namespace SeveralIdentities.Data
 {
     public class AppDbContext : IdentityDbContext
     {
