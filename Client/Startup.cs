@@ -1,18 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 
-namespace Server
+namespace Client
 {
     public class Startup
     {
@@ -25,29 +22,25 @@ namespace Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("OAuth")
-                .AddJwtBearer("OAuth", config =>
+            services.AddAuthentication(config =>
                 {
-                    var secretBytes = Encoding.UTF8.GetBytes(Constants.Secret);
-                    var key = new SymmetricSecurityKey(secretBytes);
-                    config.Events = new JwtBearerEvents()
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            if (context.Request.Query.ContainsKey("access_token"))
-                            {
-                                context.Token = context.Request.Query["access_token"];
-                            }
+                    //We check the cookie to confirm that we are authenticated
+                    config.DefaultAuthenticateScheme = "ClientCookie";
+                    //When we sign in we will deal out a cookie
+                    config.DefaultSignInScheme = "ClientCookie";
+                    //Use this to check if we are allowed to do something
+                    config.DefaultChallengeScheme = "OurServer";
+                })
+                .AddCookie("ClientCookie")
+                .AddOAuth("OurServer", config =>
+                {
+                    config.CallbackPath = "/oauth/callback";
+                    config.ClientId = "client_id";
+                    config.ClientSecret = "client_secret";
+                    config.AuthorizationEndpoint = "http://localhost:12258/oauth/authorize";
+                    config.TokenEndpoint = "http://localhost:12258/oauth/token";
 
-                            return Task.CompletedTask;
-                        }
-                    };
-                    config.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidIssuer = Constants.Issuer,
-                        ValidAudience = Constants.Audience,
-                        IssuerSigningKey = key
-                    };
+                    config.SaveTokens = true;
                 });
             services.AddControllersWithViews();
         }
